@@ -1,3 +1,32 @@
-.introduction {
+.introductionContainer {
+    width: 300px;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    color: #00c09b;
+    border-radius: 10px;
+    font-family: '微软雅黑' Arial;
+    font-size: 15px;
+    background-color: rgba(0,0,0,.9);
     display: none;
+}
+
+.introductionContainer ul {
+    margin: 15px 15px 0;
+    padding: 0;
+}
+
+.introductionContainer div {
+    width: 100px;
+    border: 1px solid;
+    border-radius: 5px;
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+    margin: 10px auto;
+    padding: 5px;
 }
