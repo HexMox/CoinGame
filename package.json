@@ -1,0 +1,20 @@
+{
+  "name": "CoinGame",
+  "version": "0.0.0",
+  "dependencies": {
+    "eventemitter2": "~0.4.14",
+    "grunt": "~0.4.5",
+    "grunt-contrib-connect": "~0.9.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HexMox/CoinGame.git"
+  },
+  "author": "Mox",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HexMox/CoinGame/issues"
+  },
+  "homepage": "https://github.com/HexMox/CoinGame"
+}
