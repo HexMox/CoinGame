@@ -1,5 +1,5 @@
 EventEmitter = require("eventemitter2").EventEmitter2
-util = require "../../lib/util"
+util = require "../../lib/utils"
 
 $ = util.$
 states = ["start", "game", "over"]
@@ -44,4 +44,4 @@ getRankByScore = (score)->
 rankString = (percent)->
     "已超过#{percent}%的兔玩家"
 
-module.exports = new State
+module.exports = (new State)

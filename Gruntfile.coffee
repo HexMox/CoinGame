@@ -1,5 +1,9 @@
 
 module.exports = (grunt) ->
+
+    coffeeify = require "coffeeify"
+    stringify = require "stringify"
+
     grunt.initConfig
         connect:
             sever:
@@ -15,15 +19,20 @@ module.exports = (grunt) ->
             compile:
                 options:
                     livereload: true
-                files: ["src/**/*.coffee", "src/**/*.less", "src/**/*.html"]
-                tasks: ["coffee", "less"]
+                files: ["src/**/*.coffee", "src/**/*.less", "src/**/*.html", "lib/**/*.js"]
+                tasks: ["browserify", "less"]
 
-        coffee:
-            compile:
+        browserify:
+            dev:
                 options:
-                    join: true
-                files:
-                    "bin/js/main.js": ["src/coffee/*.coffee"]
+                  preBundleCB: (b)->
+                    b.transform(coffeeify)
+                    b.transform(stringify({extensions: [".hbs", ".html", ".tpl", ".txt"]}))
+                expand: true
+                flatten: true
+                src: ["src/coffee/main.coffee"]
+                dest: "bin/js"
+                ext: ".js"
 
         less:
             compile:
@@ -53,7 +62,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-contrib-copy"
     grunt.loadNpmTasks "grunt-contrib-connect"
     grunt.loadNpmTasks "grunt-contrib-clean"
-    grunt.loadNpmTasks "grunt-contrib-coffee"
+    grunt.loadNpmTasks 'grunt-browserify';
     grunt.loadNpmTasks "grunt-contrib-less"
     grunt.loadNpmTasks "grunt-contrib-watch"
     grunt.loadNpmTasks "grunt-contrib-uglify"
@@ -63,7 +72,7 @@ module.exports = (grunt) ->
         grunt.task.run [
             "connect"
             "clean:bin"
-            "coffee"
+            "browserify"
             "less"
             "watch"
         ]
@@ -72,7 +81,7 @@ module.exports = (grunt) ->
         grunt.task.run [
             "clean:bin"
             "clean:dist"
-            "coffee"
+            "browserify"
             "less"
             "uglify"
             "cssmin"

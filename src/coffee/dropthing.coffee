@@ -1,5 +1,6 @@
 EventEmitter = require("eventemitter2").EventEmitter2
-{WIDTH, HEIGHT, PIPES_COUNT} = require './common'
+{$} = require '../../lib/utils'
+{WIDTH, HEIGHT, PIPES_COUNT} = require './common.coffee'
 
 PIPES_WIDTH = WIDTH / (PIPES_COUNT + 1)
 THING_WIDTH = THING_HEIGHT = 0.75 * PIPES_WIDTH

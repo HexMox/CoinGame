@@ -1,9 +1,7 @@
 EventEmitter = require("eventemitter2").EventEmitter2
-DropThing = require "./dropthing"
-{$} = require '../../lib/util'
-{WIDTH, HEIGHT, PIPES_COUNT} = require './common'
+DropThing = require "./dropthing.coffee"
+{WIDTH, HEIGHT, PIPES_COUNT} = require './common.coffee'
 
-$drops = $ '.drops'
 LEFT_OFFSET = WIDTH / (PIPES_COUNT + 1) / 2
 PIPE_PRODUCE = 0.25
 STRATEGY = [{
@@ -45,7 +43,7 @@ STRATEGY = [{
 }]
 kindScores = [0, 3, 5, 10]
 
-class Dropstuff extends EventEmitter2
+class Dropstuff extends EventEmitter
     constructor: ->
         super @
         @pipes = null
@@ -60,7 +58,7 @@ class Dropstuff extends EventEmitter2
             flags.push 0
         @flag = 0
         @stage = 0
-        @strategy = STRATEGY[stage]
+        @strategy = STRATEGY[@stage]
 
     produce: ->
         if (++flag >= 3)
@@ -116,4 +114,4 @@ isCatch = (trapezoid, rectangle)->
     trapezoid.topLeftX <= rectangle.rightX and trapezoid.topRightX >= rectangle.leftX \
         and rectangle.topY <= trapezoid.topY <= rectangle.downY
 
-module.exports = new Dropstuff
+module.exports = (new Dropstuff)

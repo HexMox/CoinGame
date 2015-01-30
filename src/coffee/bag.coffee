@@ -42,4 +42,4 @@ class Bag extends EventEmitter
             @y = y
             @draw
 
-module.exports = new Bag
+module.exports = (new Bag)

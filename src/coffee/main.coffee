@@ -1,9 +1,10 @@
 Game = require "../../lib/game"
-util = require "../../lib/util"
-bag = require "./bag"
-dropstuff = require "./dropstuff"
-state = require "./state"
-{HEIGHT, WIDTH} = require "./common"
+util = require "../../lib/utils"
+
+state = require "./state.coffee"
+bag = require "./bag.coffee"
+dropstuff = require "./dropstuff.coffee"
+{HEIGHT, WIDTH} = require "./common.coffee"
 
 $ = util.$
 game = new Game
