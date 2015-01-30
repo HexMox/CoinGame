@@ -1,4 +1,5 @@
 EventEmitter = require("eventemitter2").EventEmitter2
+DropThing = require "./dropthing"
 {$} = require '../../lib/util'
 {WIDTH, HEIGHT, PIPES_COUNT} = require './common'
 
@@ -42,9 +43,11 @@ STRATEGY = [{
     kindprobs: [.7, .15, .1, .05]
     timeStamp: 2
 }]
+kindScores = [0, 3, 5, 10]
 
 class Dropstuff extends EventEmitter2
     constructor: ->
+        super @
         @pipes = null
         @strategy = null
         @stage = 0
@@ -66,12 +69,22 @@ class Dropstuff extends EventEmitter2
             for i in [1..count]
                 pipeId = Math.floor(Math.random() * 4)
                 kind = @getKind()
-                # new DropThing
-                # add to pipes array
+                dropthing = new DropThing(kind, pipeId)
+                @pipes[pipeId].push dropthing
 
-    move: ->
-        # loops the pipes and move every dropthing in each pipes
-        # and check whether every dropthing has been catched
+    move: (bagLocation)->
+        for pipe in pipes
+            for i, thing in pipe
+                thing.drop()
+                if isCatch bagLocation, thing.getLocation() 
+                    @emit 'catch', kindScores[thing.kind]
+                    thing.crash()
+                    pipe.splice i, 1
+                    if thing.kind is 0
+                        @emit 'reduce-hp'
+                if thing.isToRemove()
+                    pipe.splice i, 1
+                thing.draw()
 
     getDropsCount: ->
         x = Math.random()
@@ -98,3 +111,9 @@ class Dropstuff extends EventEmitter2
             left = right
             kind++
         0
+
+isCatch = (trapezoid, rectangle)->
+    trapezoid.topLeftX <= rectangle.rightX and trapezoid.topRightX >= rectangle.leftX \
+        and rectangle.topY <= trapezoid.topY <= rectangle.downY
+
+module.exports = new Dropstuff

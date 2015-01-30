@@ -4,27 +4,29 @@
     <title>羊年抢红包!</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="bin/css/style.css" >
+    <link rel="stylesheet" type="text/css" href="/bin/css/style.css" >
 </head>
 <body>
     <div class="area">
         <!-- 引导界面 -->
 
         <div class="init-container">
-            <div class="start-btn">开始游戏</div>
-            <div class="show-instruction-btn">游戏说明</div>
+            <img class="brand" src="/assets/brand.png" />
+            <img class="start-btn" src="/assets/start-btn.png" />
+            <img class="show-instruction-btn" />
         </div>
 
         <div class="instruction">
             <p>游戏说明，游戏规则，奖品设置等</p>
+            <div class="instruction-back-btn">
         </div>
 
         <div id="over" class="state">
             <div class="over-ground">
                 <p>你这次成绩为</p>
-                <h1 class="score">200</h1>
-                <p class="rank">打败了全国90%的人</p>
-                <p class="shit">靠！你真是牛逼爆了</p>
+                <h1 class="score">0</h1>
+                <p class="rank">已超过0%的兔玩家</p>
+                <div class="again">再玩一次</div>
             </div>
         </div>
 
@@ -36,7 +38,7 @@
         </div>
 
         <div class="header">
-            <div class="score"></div>
+            <div id="score"></div>
             <div class="hp"></div>
         </div>
 
@@ -45,5 +47,7 @@
 
     </div>
 
+    <script type="text/javascript" src="/bin/js/main.js"></script>
+    <script src="//localhost:35729/livereload.js"></script>
 </body>
 </html>

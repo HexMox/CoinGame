@@ -10,26 +10,36 @@ class Bag extends EventEmitter
         @height = 72
         @x = LEFT_OFFSET
         @y = HEIGHT - @height
+        @offset = 0
         @$bag = null
-        @isRunning = no
+        @isDragging = no
 
-    init: ->
+    init: (@$bag)->
         @$bag.width = @width
         @$bag.height = @height
         @reset()
         @draw()
 
     reset: ->
-        @isRunning = no
+        @isDragging = no
         @x = LEFT_OFFSET
         @y = HEIGHT - @height
+
+    setOffset: (ex)->
+        @offset = ex - @x
+        @isDragging = yes
+
+    clearOffset: ->
+        @offset = 0
+        @isDragging = no
 
     draw: ->
         @$bag.style.webkitTransform = "translate3d(#{@x}px, #{@y}px, 0)"
 
     moveTo: (x, y)->
-        @x = x
-        @y = y
-        @draw
+        if @isDragging
+            @x = x - @offset
+            @y = y
+            @draw
 
 module.exports = new Bag

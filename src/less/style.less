@@ -1,0 +1,32 @@
+@btn-width: 75%;
+
+.absolute-center {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    down: 0;
+    margin: auto;
+}
+
+.area {
+    .absolute-center;
+    background-image: url("/assets/background.png");
+    background-size: 100% 100%;
+
+    .init-container {
+        height: 100%;
+        text-align: center;
+        img {display: block;}
+        .brand {
+            margin-top: 10%;
+            width: 80%;
+        }
+        .start-btn {
+            width: @btn-width;
+        }
+        .show-instruction-btn {
+            width: @btn-width;
+        }
+    }
+}
