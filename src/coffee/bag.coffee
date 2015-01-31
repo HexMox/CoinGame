@@ -7,7 +7,7 @@ class Bag extends EventEmitter
     constructor: ->
         super @
         @width = WIDTH / (PIPES_COUNT + 1)
-        @height = 72
+        @height = Math.floor 1.41439206 * @width
         @x = LEFT_OFFSET
         @y = HEIGHT - @height
         @offset = 0
@@ -24,6 +24,7 @@ class Bag extends EventEmitter
         @isDragging = no
         @x = LEFT_OFFSET
         @y = HEIGHT - @height
+        @draw()
 
     setOffset: (ex)->
         @offset = ex - @x
@@ -36,10 +37,15 @@ class Bag extends EventEmitter
     draw: ->
         @$bag.style.webkitTransform = "translate3d(#{@x}px, #{@y}px, 0)"
 
+    show: ->
+        @$bag.style.display = "block"
+
     moveTo: (x, y)->
+        x = if x > WIDTH then WIDTH else x;
         if @isDragging
             @x = x - @offset
-            @y = y
-            @draw
+            # y cannot change
+            # @y = y
+            @draw()
 
 module.exports = (new Bag)

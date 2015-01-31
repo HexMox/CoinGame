@@ -1,11 +1,37 @@
 @btn-width: 75%;
 
+* {font-family: "微软雅黑", Arial;}
+
+.boom {
+    background-image: url("/assets/boom.png");
+    background-size: 100% 100%;
+}
+.blast {
+    background-image: url("/assets/blast.png");
+    background-size: 100% 100%;
+}
+.paper-money {
+    background-image: url("/assets/paper-money.png");
+    background-size: 100% 100%;
+}
+.add-three:before {content: "+3";}
+.gold-money {
+    background-image: url("/assets/gold-money.png");
+    background-size: 100% 100%;
+}
+.add-five:before {content: "+5";}
+.gold-bar {
+    background-image: url("/assets/gold-bar.png");
+    background-size: 100% 100%;
+}
+.add-ten:before {content: "+10";}
+
 .absolute-center {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    down: 0;
+    bottom: 0;
     margin: auto;
 }
 
@@ -13,11 +39,15 @@
     .absolute-center;
     background-image: url("/assets/background.png");
     background-size: 100% 100%;
+    overflow: hidden;
 
     .init-container {
+        .absolute-center;
+        z-index: 2;
+        width: 100%;
         height: 100%;
         text-align: center;
-        img {display: block; margin: 2% auto;}
+        img {display: block; margin: 4% auto;}
         .brand {
             margin-top: 10%;
             width: 80%;
@@ -28,5 +58,170 @@
         .show-instruction-btn {
             width: @btn-width;
         }
+    }
+
+    .instruction {
+        .absolute-center;
+        z-index: 3;
+        width: 80%;
+        height: 70%;
+        display: none;
+        background-image: url("/assets/instruction-background.png");
+        background-size: 100% 100%;
+        * {margin-left: 10%;}
+        img {
+            width: 80%;
+            margin-top: 20%;
+        }
+        ul {list-style: none; padding: 0;}
+        ul li {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #89181b;
+        }
+        .instruction-back-btn {
+            margin: 0;
+            width: 50px;
+            height: 50px;
+            background-image: url("/assets/instruction-back-btn.png");
+            background-size: cover;
+            position: absolute;
+            z-index: 4;
+            bottom: -10px;
+            left: -10px;
+        }
+    }
+
+    .bag {
+        position: absolute;
+        z-index: 2;
+        display: none;
+    }
+    .header {
+        display: none;
+        position: absolute;
+        z-index: 2;
+        top: 3%;
+        left: 0;
+        width: 100%;
+        height: 9%;
+        background-color: #fbd7a0;
+        div  {position: absolute;}
+        .right {
+            height: 50%;
+            right: 4%;
+            top: 25%;
+            img {height: 100%;}
+        }
+        .left {
+            height: 80%;
+            left: 4%;
+            top: 10%;
+            .precious-box {
+                height: 100%;
+            }
+            .score-bar {
+                height: 70%;
+                margin-bottom: 5%;
+            }
+            #score {
+                display: block;
+                position: absolute;
+                font-size: 16px;
+                color: #eee;
+                line-height: 18px;
+                height: 18px;
+                margin: auto;
+                top: 0;
+                bottom: 0;
+                right: 12px;
+            }
+        }
+    }
+
+    .drops {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        .drop {
+            position: absolute;
+            font-size: 36px;
+            color: yellow;
+        }
+    }
+
+    #over {
+        display: none;
+        position: absolute;
+        z-index: 3;
+        width: 100%;
+        height: 100%;
+        &>div {
+            .absolute-center;
+            width: 80%;
+            height: 60%;
+            text-align: center;
+            background-image: url("/assets/over-background.png");
+            background-size: 100% 100%;
+        }
+        .in-red-btn {
+            width: 120px;
+            margin: 0 auto !important;
+            height: 50px;
+            font-size: 18px;
+            color: #fdffff;
+            line-height: 45px;
+            background-image: url("/assets/red-btn.png");
+            background-size: 100% 100%;
+            text-indent: 30px;
+        }
+        .over-fail {
+            display: none;
+            h1 {margin-top: 20%; font-size: 22px; color: #22161a;}
+            p {font-size:18px;color: #c4591b;}
+            span.score {font-size: 24px;}
+        }
+        .over-succeed {
+            display: none;
+            background-image: url("/assets/succeed-background.png");
+            * {margin: 0}
+            h1 {margin-top: 20%; font-size: 22px; color: #ca1d1d;}
+            h2 {margin-top: 8px; font-size: 24px; color: #c55a1b;}
+            p.bullshit {margin: 8px 0; font-size: 18px; font-weight: bold; color: #000;}
+        }
+        .over-lottery-close {
+            display: none;
+            img {
+                .absolute-center;
+                width: 50%;
+            }
+        }
+        .over-lottery-open {
+            display: none;
+            div {
+                .absolute-center;
+                width: 50%;
+                height: 50%;
+            }
+            img {
+                width: 100%;
+                position: relative;
+                // transition
+            }
+        }
+        .congratulation {
+            display: none;
+            h1 {margin-top: 20%; color: #c6211b; font-size: 22px;}
+            p {margin: 8px auto; color: #24181c; font-size: 18px; width: 80%;}
+        }
+    }
+
+    #share {
+        display: none;
+        position: absolute;
+        z-index: 4;
+        width: 100%;
+        height: 100%;
     }
 }

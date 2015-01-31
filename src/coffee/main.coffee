@@ -15,7 +15,7 @@ $showInstructionBtn = $ ".show-instruction-btn"
 $instruction = $ ".instruction"
 $instructionBackBtn = $ ".instruction-back-btn"
 $score = $ "#score"
-$hp = $ ".hp"
+$header = $ ".header"
 $bag = $ ".bag"
 
 score = 0
@@ -35,15 +35,17 @@ initArea = ->
 initBag = ->
     bag.init $bag
     $bag.addEventListener "touchstart", (event)->
-        bag.setOffset event.clientX
+        bag.setOffset event.touches[0].clientX
     $bag.addEventListener "touchmove", (event)->
-        bag.moveTo event.clientX, event.clientY
+        bag.moveTo event.touches[0].clientX, event.touches[0].clientY
     $bag.addEventListener "touchend", ->
         bag.clearOffset()
     # game.add $bag
 
 initBtns = ->
     $startBtn.addEventListener "click", ->
+        $initContainer.style.display = "none"
+        $header.style.display = "block"
         game.start()
     $showInstructionBtn.addEventListener "click", ->
         $instruction.style.display = "block"
@@ -53,35 +55,52 @@ initBtns = ->
         $initContainer.style.display = "block"
 
 initStates = ->
-    state.on 'start', ->
+    timer = null
+    game.on 'start', ->
         score = 0
         $score.innerHTML = score
         hp = 3
-        $hp.innerHTML = hp
+        updateHpView()
         bag.reset()
+        bag.show()
+        dropstuff.init() #reset
 
-    state.on 'catch', (gain)->
-        score += gain
-
-    state.on 'reduce-hp', ->
-        hp--
-        if hp <= 0
-            game.stop()
-            state.change "over", score
-
-initDropstuff = ->
-    timer = null
-    dropstuff.init()
-    dropstuff.on 'start', ->
         _run = ->
             dropstuff.produce()
             dropstuff.move
                 topLeftX: bag.x + bag.width * 0.1
                 topRightX: bag.x + bag.width * 0.9
                 topY: bag.y
-            timer = requestAnimationFrame(_run)
+            if (hp > 0)
+                timer = requestAnimationFrame(_run)
         _run()
-    dropstuff.on 'stop', ->
+    # put in this becase timer is local variable
+    game.on 'stop', ->
         cancelAnimationFrame timer
+
+initDropstuff = ->
+    dropstuff.init()
+    dropstuff.on 'catch', (gain)->
+        score += gain
+        dropstuff.changeStrategyByScore score
+        updateScoreView()
+
+    dropstuff.on 'reduce-hp', ->
+        hp--
+        updateHpView()
+        if hp <= 0
+            game.stop()
+            state.change "over", score
+
+updateScoreView = ->
+    $score.innerHTML = score
+
+updateHpView = ->
+    for i in [1..3]
+        className = "hp#{i}"
+        if i > hp
+            $(".#{className}").style.display = "none"
+        else
+            $(".#{className}").style.display = "display"
 
 game.init()

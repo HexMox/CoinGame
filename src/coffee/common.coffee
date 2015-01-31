@@ -12,4 +12,4 @@ RATE = 16.7
 
 AGENT = window.navigator.userAgent
 
-module.exports = {HEIGHT, WIDTH, RATE, AGENT}
+module.exports = {HEIGHT, WIDTH, PIPES_COUNT, RATE, AGENT}

@@ -17,16 +17,45 @@
         </div>
 
         <div class="instruction">
-            <p>游戏说明，游戏规则，奖品设置等</p>
-            <div class="instruction-back-btn">
+            <img src="/assets/prize.png">
+            <ul>
+                <li>特等奖：IPad Air一台</li>
+                <li>特等奖：IPad Air一台</li>
+                <li>特等奖：IPad Air一台</li>
+                <li>特等奖：IPad Air一台</li>
+            </ul>
+            <div class="instruction-back-btn"></div>
         </div>
 
         <div id="over" class="state">
-            <div class="over-ground">
-                <p>你这次成绩为</p>
-                <h1 class="score">0</h1>
-                <p class="rank">已超过0%的兔玩家</p>
-                <div class="again">再玩一次</div>
+            <div class="over-fail">
+                <h1>游戏结束</h1>
+                <p>你本次的得分为<span class="score">0</span>分</p>
+                <div class="again in-red-btn">再来一次</div>
+            </div>
+
+            <div class="over-succeed">
+                <h1>你的得分</h1>
+                <h2 class="score">0</h2>
+                <p class="bullshit">超过50%的兔玩家</p>
+                <div class="go-lottery in-red-btn">参与抽奖</div>
+            </div>
+
+            <div class="over-lottery-close">
+                <img class="open-reward-btn" src="/assets/close-precious-box.png">
+            </div>
+
+            <div class="over-lottery-open">
+                <div class="package">
+                    <img src="/assets/open-precious-box-top.png">
+                    <img src="/assets/open-precious-box-bottom.png">
+                </div>
+            </div>
+
+            <div class="congratulation">
+                <h1> 恭喜你获得 </h1>
+                <p class="reward">超级豪华暴爽无敌终极大礼包一份</p>
+                <div class="go-share in-red-btn">奔走相告</div>
             </div>
         </div>
 
@@ -38,12 +67,20 @@
         </div>
 
         <div class="header">
-            <div id="score"></div>
-            <div class="hp"></div>
+            <div class="left">
+                <img class="precious-box" src="/assets/precious-box.png" />
+                <img class="score-bar" src="/assets/score-bar.png" />
+                <span id="score">0</span>
+            </div>
+            <div class="right">
+                <img class="hp3" src="/assets/heart.png" />
+                <img class="hp2" src="/assets/heart.png" />
+                <img class="hp1" src="/assets/heart.png" />
+            </div>
         </div>
 
         <div class="drops"></div>
-        <img class="bag" src="assets/bag.png">
+        <img class="bag" src="/assets/bag.png">
 
     </div>
 

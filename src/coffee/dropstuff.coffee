@@ -50,65 +50,93 @@ class Dropstuff extends EventEmitter
         @strategy = null
         @stage = 0
         @flag = 0
+        @frameCount = 0
 
     init: ->
+        # same as reset
         @pipes = []
         for i in [1..PIPES_COUNT]
-            pipes.push []
-            flags.push 0
+            @pipes.push []
         @flag = 0
         @stage = 0
         @strategy = STRATEGY[@stage]
+        @frameCount = 180
 
     produce: ->
-        if (++flag >= 3)
-            flag = 0
+        if (++@flag >= @frameCount)
+            @flag = 0
             count  = @getDropsCount()
             for i in [1..count]
                 pipeId = Math.floor(Math.random() * 4)
-                kind = @getKind()
+                # kind = @getKind()
+                kind = 0
                 dropthing = new DropThing(kind, pipeId)
                 @pipes[pipeId].push dropthing
 
     move: (bagLocation)->
-        for pipe in pipes
-            for i, thing in pipe
+        for pipe in @pipes
+            for thing, i in pipe
+                # console.log thing, i
                 thing.drop()
+                thing.draw()
                 if isCatch bagLocation, thing.getLocation() 
                     @emit 'catch', kindScores[thing.kind]
-                    thing.crash()
                     pipe.splice i, 1
+                    thing.crash()
                     if thing.kind is 0
                         @emit 'reduce-hp'
                 if thing.isToRemove()
                     pipe.splice i, 1
-                thing.draw()
 
     getDropsCount: ->
         x = Math.random()
         left = 0
         right = 0
-        count = strategy.MinDroppingPipes
-        for item in strategy.probs
+        count = @strategy.MinDroppingPipes
+        for item in @strategy.probs
             right += item
             if (x <= right and x > left)
                 return count
             left = right
             count++
-        strategy.MaxDroppingPipes
+        @strategy.MaxDroppingPipes
 
     getKind: ->
         x = Math.random()
         left = 0
         right = 0
         kind = 0
-        for item in strategy.kindprobs
+        for item in @strategy.kindprobs
             right += item
             if (x <= right and x > left)
                 return kind
             left = right
             kind++
         0
+
+    changeStrategy: (stage)->
+        @stage = stage 
+        @strategy = STRATEGY[stage]
+
+    changeStrategyByScore: (score)->
+        if 0 <= score <= 50
+            @changeStrategy 0 if @stage isnt 0
+            @frameCount = 180
+        if 51 <= score <= 100
+            @changeStrategy 1 if @stage isnt 1
+            @frameCount = 120
+        if 101 <= score <= 150
+            @changeStrategy 2 if @stage isnt 2
+            @frameCount = 120
+        if 151 <= score <= 200 
+            @changeStrategy 3 if @stage isnt 3
+            @frameCount = 120
+        if 201 <= score <= 800
+            @changeStrategy 4 if @stage isnt 4
+            @frameCount = 60
+        if 801 <= score
+            @changeStrategy 5 if @stage isnt 5
+            @frameCount = 20
 
 isCatch = (trapezoid, rectangle)->
     trapezoid.topLeftX <= rectangle.rightX and trapezoid.topRightX >= rectangle.leftX \
