@@ -57,7 +57,7 @@ class Dropstuff extends EventEmitter
         @pipes = []
         for i in [1..PIPES_COUNT]
             @pipes.push []
-        @flag = 0
+        @flag = 180
         @stage = 0
         @strategy = STRATEGY[@stage]
         @frameCount = 180
