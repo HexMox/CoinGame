@@ -3,34 +3,67 @@ util = require "../../lib/utils"
 
 $ = util.$
 states = ["start", "game", "over"]
+REWARD_SCORE = 50
 
 class State extends EventEmitter
     constructor: ->
         super @
         @state = "start"
         @$over = $ "#over"
-        @$score = $ "#over .score"
-        @$rank = $ "#over .rank"
-        @$again = $ "#over .again"
-        # @$share = null
-        # @$count = null
+
+        @$overFail = $ ".over-fail"
+        @$failScore = $ ".over-fail .score"
+        @$againBtn = $ ".over-fail .again"
+
+        @$overSucceed = $ ".over-succeed"
+        @$succeedScore = $ ".over-succeed .score"
+        @$bullshit = $ ".bullshit"
+        @$goLotteryBtn = $ ".over-succeed .go-lottery"
+
+        @$overLotteryClose = $ ".over-lottery-close"
+        @$openRewardBtn = $ ".over-lottery-close .open-reward-btn"
+
+        @$overLotteryOpen = $ ".over-lottery-open"
+
+        @$congratulation = $ ".congratulation"
+        @$goShareBtn = $ ".go-share-btn"
         @initOverState()
 
     initOverState: ->
-        @$again.addEventListener "touchstart", (event)=>
+        @$againBtn.addEventListener "touchstart", (event)=>
             event.stopPropagation()
             @change "start"
+
+        @$goLotteryBtn.addEventListener "touchstart", (event)=>
+            event.stopPropagation()
+            @$overSucceed.style.display = "none"
+            @$overLotteryClose.style.display = "block"
+
+        @$openRewardBtn.addEventListener "touchstart", (event)=>
+            event.stopPropagation()
+            @$overLotteryClose.style.display = "none"
+            @$overLotteryOpen.style.display = "block"
+            setTimeout =>
+                @$overLotteryOpen.style.display = "none"
+                @$congratulation.style.display = "block"
+            , 1000
 
     change: (state, score)->
         if state not in states then throw "#{state} is not in states"
         @state = state
         @toggleOverState state, score
+        @emit state
 
     toggleOverState: (state, score)->
         if state is "over"
-            @$score.innerHTML = score
-            @$rank.innerHTML = getRankByScore score
             @$over.style.display = "block"
+            if score > REWARD_SCORE
+                @$succeedScore.innerHTML = score
+                @$bullshit.innerHTML = getRankByScore score
+                @$overSucceed.style.display = "block"
+            else
+                @$failScore.innerHTML = score
+                @$overFail.style.display = "block"
         else
             @$over.style.display = "none"
 

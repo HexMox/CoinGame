@@ -47,6 +47,7 @@ initBtns = ->
         $initContainer.style.display = "none"
         $header.style.display = "block"
         game.start()
+        state.change "start"
     $showInstructionBtn.addEventListener "click", ->
         $instruction.style.display = "block"
         $initContainer.style.display = "none"
@@ -56,7 +57,7 @@ initBtns = ->
 
 initStates = ->
     timer = null
-    game.on 'start', ->
+    state.on 'start', ->
         score = 0
         $score.innerHTML = score
         hp = 3
@@ -101,6 +102,6 @@ updateHpView = ->
         if i > hp
             $(".#{className}").style.display = "none"
         else
-            $(".#{className}").style.display = "display"
+            $(".#{className}").style.display = "block"
 
 game.init()

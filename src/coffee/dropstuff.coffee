@@ -68,25 +68,30 @@ class Dropstuff extends EventEmitter
             count  = @getDropsCount()
             for i in [1..count]
                 pipeId = Math.floor(Math.random() * 4)
-                # kind = @getKind()
-                kind = 0
+                kind = @getKind()
+                # kind = 0
                 dropthing = new DropThing(kind, pipeId)
                 @pipes[pipeId].push dropthing
 
     move: (bagLocation)->
+        # need a temp pipes variable because splice operation maybe occur
+        pipes = []
         for pipe in @pipes
+            newPipe = []
             for thing, i in pipe
-                # console.log thing, i
-                thing.drop()
+                thing.drop() 
                 thing.draw()
-                if isCatch bagLocation, thing.getLocation() 
+                if thing.isToRemove()
+                    continue
+                else if isCatch bagLocation, thing.getLocation() 
                     @emit 'catch', kindScores[thing.kind]
-                    pipe.splice i, 1
                     thing.crash()
                     if thing.kind is 0
                         @emit 'reduce-hp'
-                if thing.isToRemove()
-                    pipe.splice i, 1
+                else
+                    newPipe.push thing
+            pipes.push newPipe
+        @pipes = pipes
 
     getDropsCount: ->
         x = Math.random()
