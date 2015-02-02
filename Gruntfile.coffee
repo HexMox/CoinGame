@@ -58,9 +58,6 @@ module.exports = (grunt) ->
             assets:
                 src: "assets/**/*"
                 dest: "dist/"
-            html:
-                src: "src/index.html"
-                dest: "dist/index.html"
 
     grunt.loadNpmTasks "grunt-contrib-copy"
     grunt.loadNpmTasks "grunt-contrib-connect"
