@@ -5,43 +5,71 @@ DropThing = require "./dropthing.coffee"
 LEFT_OFFSET = WIDTH / (PIPES_COUNT + 1) / 2
 PIPE_PRODUCE = 0.25
 STRATEGY = [{
+    # score 0-25
     MinDroppingPipes: 1
-    MaxDroppingPipes: 1
-    probs: [1]
-    kindprobs: [.05, .60, .25, .10]
+    MaxDroppingPipes: 2
+    probs: [0.7, 0.3] # 生成掉落通道数的概率
+    # 生成掉落物种类数的概率，依次为炸弹，白羊，黑羊，纸币，金币，金条
+    kindprobs: [0, 0, 0, 0.60, 0.25, 0.15]
     timeStamp: 3
+    MinSpeed: HEIGHT / (2.2 * 60)
+    MaxSpeed: HEIGHT / (1.9 * 60)
 }, {
-    MinDroppingPipes: 1
-    MaxDroppingPipes: 2
-    probs: [0.7, 0.3]
-    kindprobs: [.25, .20, .35, .20]
-    timeStamp: 2
-}, {
+    # score 26-50
     MinDroppingPipes: 1
     MaxDroppingPipes: 2
     probs: [0.6, 0.4]
-    kindprobs: [.25, .35, .25, .15]
-    timeStamp: 2
+    kindprobs: [0.05, 0, 0, 0.60, 0.25, 0.10]
+    timeStamp: 3
+    MinSpeed: HEIGHT / (1.8 * 60)
+    MaxSpeed: HEIGHT / (1.6 * 60)
 }, {
+    # score 51-100
     MinDroppingPipes: 1
     MaxDroppingPipes: 3
     probs: [0.5, 0.3, 0.2]
-    kindprobs: [.35, .35, .15, .15]
+    kindprobs: [0.05, 0.05, 0.05, 0.40, 0.30, 0.15]
     timeStamp: 2
+    MinSpeed: HEIGHT / (1.8 * 60)
+    MaxSpeed: HEIGHT / (1.6 * 60)
 }, {
+    # score 101-150
     MinDroppingPipes: 1
     MaxDroppingPipes: 3
     probs: [0.5, 0.3, 0.2]
-    kindprobs: [.5, .2, .1, .2]
+    kindprobs: [0.15, 0.10, 0.10, 0.27, 0.25, 0.13]
     timeStamp: 2
+    MinSpeed: HEIGHT / (1.5 * 60)
+    MaxSpeed: HEIGHT / (1.3 * 60)
+}, {
+    # score 151-300
+    MinDroppingPipes: 1
+    MaxDroppingPipes: 4
+    probs: [0.25, 0.25, 0.25, 0.25]
+    kindprobs: [0.18, 0.13, 0.12, 0.23, 0.23, 0.11]
+    timeStamp: 2
+    MinSpeed: HEIGHT / (1 * 60)
+    MaxSpeed: HEIGHT / (0.7 * 60)
 },{
-    MinDroppingPipes: 3 
+    # score 301-800
+    MinDroppingPipes: 2 
     MaxDroppingPipes: 4 
-    probs: [0.6, 0.4]
-    kindprobs: [.7, .15, .1, .05]
+    probs: [0.3, 0.4, 0.3]
+    kindprobs: [0.24, 0.15, 0.10, 0.20, 0.15, 0.16]
     timeStamp: 2
+    MinSpeed: HEIGHT / (1 * 60)
+    MaxSpeed: HEIGHT / (0.7 * 60)
+},{
+    # score 800up
+    MinDroppingPipes: 3
+    MaxDroppingPipes: 5 
+    probs: [0.3, 0.3, 0.4]
+    kindprobs: [0.39, 0.12, 0.05, 0.20, 0.12, 0.12]
+    timeStamp: 2
+    MinSpeed: HEIGHT / (1 * 60)
+    MaxSpeed: HEIGHT / (0.7 * 60)
 }]
-kindScores = [0, 3, 5, 10]
+kindScores = [0, 0, 0, 3, 5, 10]
 
 class Dropstuff extends EventEmitter
     constructor: ->
@@ -67,10 +95,10 @@ class Dropstuff extends EventEmitter
             @flag = 0
             count  = @getDropsCount()
             for i in [1..count]
-                pipeId = Math.floor(Math.random() * 4)
+                pipeId = Math.floor(Math.random() * PIPES_COUNT)
                 kind = @getKind()
-                # kind = 0
-                dropthing = new DropThing(kind, pipeId)
+                speed = @getSpeed()
+                dropthing = new DropThing(kind, pipeId, speed)
                 @pipes[pipeId].push dropthing
 
     move: (bagLocation)->
@@ -83,11 +111,15 @@ class Dropstuff extends EventEmitter
                 thing.draw()
                 if thing.isToRemove()
                     continue
-                else if isCatch bagLocation, thing.getLocation() 
+                else if isCatch bagLocation, thing.getCrashCheckObj(), thing.kind
                     @emit 'catch', kindScores[thing.kind]
                     thing.crash()
                     if thing.kind is 0
                         @emit 'reduce-hp'
+                    if thing.kind is 1
+                        @emit 'expand-bag'
+                    if thing.kind is 2
+                        @emit 'shrink-bag'
                 else
                     newPipe.push thing
             pipes.push newPipe
@@ -119,31 +151,36 @@ class Dropstuff extends EventEmitter
             kind++
         0
 
+    getSpeed: ->
+        speed = Math.floor(@strategy.MinSpeed +  Math.random() * (@strategy.MaxSpeed - @strategy.MinSpeed))
+
     changeStrategy: (stage)->
         @stage = stage 
         @strategy = STRATEGY[stage]
+        @frameCount = @strategy.timeStamp * 60
 
     changeStrategyByScore: (score)->
-        if 0 <= score <= 50
+        if 0 <= score <= 25
             @changeStrategy 0 if @stage isnt 0
-            @frameCount = 180
-        if 51 <= score <= 100
+        if 26 <= score <= 50
             @changeStrategy 1 if @stage isnt 1
-            @frameCount = 120
-        if 101 <= score <= 150
+        if 51 <= score <= 100
             @changeStrategy 2 if @stage isnt 2
-            @frameCount = 120
-        if 151 <= score <= 200 
+        if 101 <= score <= 150
             @changeStrategy 3 if @stage isnt 3
-            @frameCount = 120
-        if 201 <= score <= 800
+        if 151 <= score <= 300
             @changeStrategy 4 if @stage isnt 4
-            @frameCount = 60
-        if 801 <= score
+        if 301 <= score <= 800
             @changeStrategy 5 if @stage isnt 5
-            @frameCount = 20
+        if 801 <= score
+            @changeStrategy 6 if @stage isnt 6
 
-isCatch = (trapezoid, rectangle)->
+isCatch = (trapezoid, rectangle, kind)->
+    # if kind is 0
+    #     rightBound = trapezoid.x + trapezoid.width - rectangle.width * 1/2
+    #     leftBound = trapezoid.x
+    #     return leftBound <= rectangle.rightX and rightBound >= rectangle.leftX \
+    #         and rectangle.topY <= trapezoid.topY <= rectangle.downY
     trapezoid.topLeftX <= rectangle.rightX and trapezoid.topRightX >= rectangle.leftX \
         and rectangle.topY <= trapezoid.topY <= rectangle.downY
 

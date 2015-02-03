@@ -73,10 +73,7 @@ initStates = ->
 
         _run = ->
             dropstuff.produce()
-            dropstuff.move
-                topLeftX: bag.x + bag.width * 0.1
-                topRightX: bag.x + bag.width * 0.9
-                topY: bag.y
+            dropstuff.move bag.getCrashCheckObj()
             if (hp > 0)
                 timer = requestAnimationFrame(_run)
         _run()
@@ -97,6 +94,11 @@ initDropstuff = ->
         if hp <= 0
             game.stop()
             state.change "over", score
+
+    dropstuff.on 'expand-bag', ->
+        bag.expand()
+    dropstuff.on 'shrink-bag', ->
+        bag.shrink()
 
 updateScoreView = ->
     $score.innerHTML = score

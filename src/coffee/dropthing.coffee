@@ -6,27 +6,27 @@ PIPES_WIDTH = WIDTH / (PIPES_COUNT + 1)
 THING_WIDTH = THING_HEIGHT = 0.75 * PIPES_WIDTH
 LEFT_OFFSET = WIDTH / (PIPES_COUNT + 1) / 2
 TOP_OFFSET = 0.03 * HEIGHT
-SECONDS = 2.5
-SPEED = HEIGHT / (SECONDS * 60)
 
 $drops = $ ".drops"
 
 KINDS = [
     "boom", 
+    "white-sheep",
+    "black-sheep",
     "paper-money",
     "gold-money",
     "gold-bar"
 ]
 
 class Dropthing extends EventEmitter
-    constructor: (kind, pipeId)->
+    constructor: (kind, pipeId, speed)->
         super @
         @x = 0
         @y = TOP_OFFSET
         @width = THING_WIDTH
         @height = THING_HEIGHT
         # @vx = 0
-        @vy = 0
+        @vy = speed
         @kind = kind
         @pipeId = pipeId
         @$dom = null
@@ -34,7 +34,6 @@ class Dropthing extends EventEmitter
 
     init: ->
         @x = (Math.random() * PIPES_WIDTH * 0.25) + (@pipeId * PIPES_WIDTH + LEFT_OFFSET)
-        @vy = SPEED
         @$dom = @createDom()
 
     drop: ->
@@ -53,9 +52,11 @@ class Dropthing extends EventEmitter
                 @$dom.className = "blast drop"
                 @$dom.style.width = @width * 2
                 @$dom.style.height = @height * 2
-            when 1 then @$dom.className = "add-three drop"
-            when 2 then @$dom.className = "add-five drop"
-            when 3 then @$dom.className = "add-ten drop"
+            when 1 then @$dom.className = "drop"
+            when 2 then @$dom.className = "drop"
+            when 3 then @$dom.className = "add-three drop"
+            when 4 then @$dom.className = "add-five drop"
+            when 5 then @$dom.className = "add-ten drop"
         setTimeout ->
             that.remove()
         , 500
@@ -69,8 +70,8 @@ class Dropthing extends EventEmitter
         $drops.appendChild div
         div
 
-    getLocation: ->
-        location =  
+    getCrashCheckObj: ->
+        obj =  
             leftX: @x
             rightX: @x + @width
             topY: @y

@@ -3,7 +3,7 @@ util = require "../../lib/utils"
 
 $ = util.$
 states = ["start", "game", "over"]
-REWARD_SCORE = 50
+REWARD_SCORE = 280
 
 class State extends EventEmitter
     constructor: ->

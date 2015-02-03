@@ -97,4 +97,4 @@ module.exports = (grunt) ->
             "copy"
         ]
 
-    grunt.registerTask "min", ["imagemin"]
+    # grunt.registerTask "min", ["imagemin"]
