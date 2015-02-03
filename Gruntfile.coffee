@@ -59,6 +59,14 @@ module.exports = (grunt) ->
                 src: "assets/**/*"
                 dest: "dist/"
 
+        imagemin:
+            dev:
+                files: [
+                    expand: true
+                    src: ['notminimgs/**/*.{png, jpg, gif}']
+                    dest: 'assets/'
+                ]
+
     grunt.loadNpmTasks "grunt-contrib-copy"
     grunt.loadNpmTasks "grunt-contrib-connect"
     grunt.loadNpmTasks "grunt-contrib-clean"
@@ -67,6 +75,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-contrib-watch"
     grunt.loadNpmTasks "grunt-contrib-uglify"
     grunt.loadNpmTasks "grunt-contrib-cssmin"
+    grunt.loadNpmTasks "grunt-contrib-imagemin"
 
     grunt.registerTask "default",  ->
         grunt.task.run [
@@ -87,3 +96,5 @@ module.exports = (grunt) ->
             "cssmin"
             "copy"
         ]
+
+    grunt.registerTask "min", ["imagemin"]

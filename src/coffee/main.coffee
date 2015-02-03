@@ -37,6 +37,7 @@ initBag = ->
     $bag.addEventListener "touchstart", (event)->
         bag.setOffset event.touches[0].clientX
     $bag.addEventListener "touchmove", (event)->
+        event.preventDefault();
         bag.moveTo event.touches[0].clientX, event.touches[0].clientY
     $bag.addEventListener "touchend", ->
         bag.clearOffset()
@@ -46,6 +47,10 @@ initBtns = ->
     $startBtn.addEventListener "click", ->
         $initContainer.style.display = "none"
         $header.style.display = "block"
+        # mobile compatibility, maybe  a bug
+        setTimeout ->
+            $score.style.position = "absolute"
+        , 100
         game.start()
         state.change "start"
     $showInstructionBtn.addEventListener "click", ->
