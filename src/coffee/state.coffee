@@ -3,7 +3,7 @@ util = require "../../lib/utils"
 
 $ = util.$
 states = ["start", "game", "over"]
-REWARD_SCORE = 280
+REWARD_SCORE = 288
 
 class State extends EventEmitter
     constructor: ->
@@ -13,6 +13,7 @@ class State extends EventEmitter
 
         @$overFail = $ ".over-fail"
         @$failScore = $ ".over-fail .score"
+        @$distance = $ ".over-fail .distance"
         @$againBtn = $ ".over-fail .again"
 
         @$overSucceed = $ ".over-succeed"
@@ -63,6 +64,7 @@ class State extends EventEmitter
                 @$overSucceed.style.display = "block"
             else
                 @$failScore.innerHTML = score
+                @$distance.innerHTML = REWARD_SCORE - score
                 @$overFail.style.display = "block"
         else
             @$over.style.display = "none"

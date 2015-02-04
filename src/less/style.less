@@ -77,16 +77,23 @@
         display: none;
         background-image: url("/assets/instruction-background.png");
         background-size: 100% 100%;
-        * {margin-left: 10%;}
-        img {
+        .instruction-container {
             width: 80%;
+            height: 80%;
+            overflow-y: auto;
+            margin-left: 10%;
+            margin-right: 10%;
             margin-top: 20%;
-        }
-        ul {list-style: none; padding: 0;}
-        ul li {
-            margin: 10px 0;
-            font-size: 16px;
-            color: #89181b;
+            &::-webkit-scrollbar {display: none;}
+            // &::-webkit-scrollbar-thumb {background-color: #f5a817; }
+            // &::-webkit-scrollbar-track {brackground-color: #b18e73; }
+            img {width: 100%;}
+            ul {list-style: none; padding: 0;}
+            ul li {
+                margin: 10px 0;
+                font-size: 12px;
+                color: #89181b;
+            }
         }
         .instruction-back-btn {
             margin: 0;

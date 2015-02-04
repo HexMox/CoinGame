@@ -72,13 +72,13 @@ class Bag extends EventEmitter
             topRightX: @rightOffsetRate * @width + @x
 
     expand: ->
-        @width += MIN_BAG_WIDTH
+        @width += MIN_BAG_WIDTH / 2
         @width = MAX_BAG_WIDTH if @width > MAX_BAG_WIDTH
         @height = Math.floor 1.41439206 * @width
         @applyToDom()
 
     shrink: ->
-        @width -= MIN_BAG_WIDTH
+        @width -= MIN_BAG_WIDTH / 2
         @width = MIN_BAG_WIDTH if @width < MIN_BAG_WIDTH
         @height = Math.floor 1.41439206 * @width
         @applyToDom()
