@@ -7,6 +7,7 @@ dropstuff = require "./dropstuff.coffee"
 {HEIGHT, WIDTH} = require "./common.coffee"
 
 $ = util.$
+sendAjax = util.sendAjax
 game = new Game
 $area = $ ".area"
 $initContainer = $ ".init-container"
@@ -27,6 +28,7 @@ game.on 'init', ->
     initBag()
     initStates()
     initDropstuff()
+    sendAjax "post", location.protocol + "//" + location.host + "/users/access"
 
 initArea = ->
     $area.style.width = "#{WIDTH}px"

@@ -2,6 +2,7 @@ EventEmitter = require("eventemitter2").EventEmitter2
 util = require "../../lib/utils"
 
 $ = util.$
+sendAjax = util.sendAjax
 states = ["start", "game", "over"]
 REWARD_SCORE = 288
 
@@ -44,10 +45,10 @@ class State extends EventEmitter
             event.stopPropagation()
             @$overLotteryClose.style.display = "none"
             @$overLotteryOpen.style.display = "block"
-            setTimeout =>
+            url = location.protocol + "//" + location.host + "/users/result"
+            sendAjax "post", url, null, =>
                 @$overLotteryOpen.style.display = "none"
                 @$congratulation.style.display = "block"
-            , 1000
 
     change: (state, score)->
         if state not in states then throw "#{state} is not in states"
