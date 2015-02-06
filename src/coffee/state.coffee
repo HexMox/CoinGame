@@ -28,7 +28,7 @@ class State extends EventEmitter
         @$overLotteryOpen = $ ".over-lottery-open"
 
         @$congratulation = $ ".congratulation"
-        @$reward = $ ".congratulation reward"
+        @$reward = $ ".congratulation .reward"
         @$goShareBtn = $ ".go-share-btn"
         @initOverState()
 
