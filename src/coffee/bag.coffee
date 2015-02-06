@@ -21,9 +21,7 @@ class Bag extends EventEmitter
         @rightOffsetRate = 0.834
 
     init: (@$bag)->
-        @applyToDom()
         @reset()
-        @draw()
 
     applyToDom: ->
         @y = HEIGHT - @height
@@ -38,7 +36,7 @@ class Bag extends EventEmitter
         @y = HEIGHT - @height
         @width = MIN_BAG_WIDTH
         @height = Math.floor 1.41439206 * @width
-        @draw()
+        @applyToDom()
 
     setOffset: (ex)->
         @offset = ex - @x

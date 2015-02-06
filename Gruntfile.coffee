@@ -55,10 +55,18 @@ module.exports = (grunt) ->
                     "dist/css/style.css": ["bin/css/style.css"]
 
         copy:
+            less:
+                options:
+                    process: (content, srcpath)->
+                        return content.replace /\/assets/g, "../assets"
             assets:
                 src: "assets/**/*"
                 dest: "dist/"
             html:
+                options:
+                    process: (content, srcpath)->
+                        return content.replace(/\/assets/g, "./assets") \
+                                .replace(/\/bin/g, ".").replace(/main.js/g, "main.min.js")
                 files:
                     "dist/index.html": ["src/index.html"]
 
@@ -74,7 +82,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks "grunt-contrib-copy"
     grunt.loadNpmTasks "grunt-contrib-connect"
     grunt.loadNpmTasks "grunt-contrib-clean"
-    grunt.loadNpmTasks 'grunt-browserify';
+    grunt.loadNpmTasks 'grunt-browserify'
     grunt.loadNpmTasks "grunt-contrib-less"
     grunt.loadNpmTasks "grunt-contrib-watch"
     grunt.loadNpmTasks "grunt-contrib-uglify"
@@ -94,11 +102,11 @@ module.exports = (grunt) ->
         grunt.task.run [
             "clean:bin"
             "clean:dist"
+            "copy"
             "browserify"
             "less"
             "uglify"
             "cssmin"
-            "copy"
         ]
 
     grunt.registerTask "min", ["imagemin"]

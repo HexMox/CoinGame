@@ -19,6 +19,8 @@ $score = $ "#score"
 $header = $ ".header"
 $bag = $ ".bag"
 
+$drops = $ ".drops"
+
 score = 0
 hp = 3
 
@@ -72,6 +74,7 @@ initStates = ->
         bag.reset()
         bag.show()
         dropstuff.init() #reset
+        $drops.innerHTML = ""
 
         _run = ->
             dropstuff.produce()
