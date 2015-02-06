@@ -58,6 +58,9 @@ module.exports = (grunt) ->
             assets:
                 src: "assets/**/*"
                 dest: "dist/"
+            html:
+                files:
+                    "dist/index.html": ["src/index.html"]
 
         imagemin:
             dev:
