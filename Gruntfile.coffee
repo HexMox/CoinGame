@@ -55,10 +55,12 @@ module.exports = (grunt) ->
                     "dist/css/style.css": ["bin/css/style.css"]
 
         copy:
-            less:
+            css:
                 options:
                     process: (content, srcpath)->
                         return content.replace /\/assets/g, "../assets"
+                files:
+                    "dist/css/style.css": ["bin/css/style.css"]
             assets:
                 src: "assets/**/*"
                 dest: "dist/"
@@ -102,11 +104,11 @@ module.exports = (grunt) ->
         grunt.task.run [
             "clean:bin"
             "clean:dist"
-            "copy"
             "browserify"
             "less"
             "uglify"
             "cssmin"
+            "copy"
         ]
 
     grunt.registerTask "min", ["imagemin"]
