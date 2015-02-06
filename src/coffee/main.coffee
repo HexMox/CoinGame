@@ -1,3 +1,5 @@
+jquery = require "jquery"
+
 Game = require "../../lib/game"
 util = require "../../lib/utils"
 
@@ -7,7 +9,6 @@ dropstuff = require "./dropstuff.coffee"
 {HEIGHT, WIDTH} = require "./common.coffee"
 
 $ = util.$
-sendAjax = util.sendAjax
 game = new Game
 $area = $ ".area"
 $initContainer = $ ".init-container"
@@ -30,7 +31,10 @@ game.on 'init', ->
     initBag()
     initStates()
     initDropstuff()
-    sendAjax "post", location.protocol + "//" + location.host + "/users/access"
+    jquery.ajax
+        url: location.protocol + "//" + location.host + "/users/access"
+        type: 'POST'
+        # success: (data, status)->
 
 initArea = ->
     $area.style.width = "#{WIDTH}px"

@@ -1,8 +1,8 @@
 EventEmitter = require("eventemitter2").EventEmitter2
+jquery = require "jquery"
 util = require "../../lib/utils"
 
 $ = util.$
-sendAjax = util.sendAjax
 states = ["start", "game", "over"]
 REWARD_SCORE = 288
 
@@ -28,6 +28,7 @@ class State extends EventEmitter
         @$overLotteryOpen = $ ".over-lottery-open"
 
         @$congratulation = $ ".congratulation"
+        @$reward = $ ".congratulation reward"
         @$goShareBtn = $ ".go-share-btn"
         @initOverState()
 
@@ -46,9 +47,13 @@ class State extends EventEmitter
             @$overLotteryClose.style.display = "none"
             @$overLotteryOpen.style.display = "block"
             url = location.protocol + "//" + location.host + "/users/result"
-            sendAjax "post", url, null, =>
-                @$overLotteryOpen.style.display = "none"
-                @$congratulation.style.display = "block"
+            jquery.ajax
+                url: url
+                type: 'POST'
+                success: (data, status)=>
+                    @$overLotteryOpen.style.display = "none"
+                    @$reward.innerHTML = data.result
+                    @$congratulation.style.display = "block"
 
     change: (state, score)->
         if state not in states then throw "#{state} is not in states"
