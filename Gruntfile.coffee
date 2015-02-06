@@ -63,7 +63,8 @@ module.exports = (grunt) ->
             dev:
                 files: [
                     expand: true
-                    src: ['notminimgs/**/*.{png, jpg, gif}']
+                    cwd: 'notminimgs'
+                    src: ['*.{png, jpg, gif}']
                     dest: 'assets/'
                 ]
 
@@ -97,4 +98,4 @@ module.exports = (grunt) ->
             "copy"
         ]
 
-    # grunt.registerTask "min", ["imagemin"]
+    grunt.registerTask "min", ["imagemin"]

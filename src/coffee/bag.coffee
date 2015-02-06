@@ -36,6 +36,8 @@ class Bag extends EventEmitter
         @isDragging = no
         @x = LEFT_OFFSET
         @y = HEIGHT - @height
+        @width = MIN_BAG_WIDTH
+        @height = Math.floor 1.41439206 * @width
         @draw()
 
     setOffset: (ex)->
