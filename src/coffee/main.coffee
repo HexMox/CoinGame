@@ -57,8 +57,9 @@ initBtns = ->
         $header.style.display = "block"
         # mobile compatibility, maybe  a bug
         setTimeout ->
-            $score.style.position = "absolute"
-        , 100
+            width = $(".header .left .precious-box").width + $(".header .left .score-bar").width
+            $score.style.width = width + "px"
+        , 300
         game.start()
         state.change "start"
     $showInstructionBtn.addEventListener "click", ->

@@ -123,6 +123,21 @@
         height: 9%;
         background-color: #fbd7a0;
         div  {position: absolute;}
+        #score {
+            position: absolute;
+            z-index: 1;
+            display: block;
+            font-size: 16px;
+            text-align: right;
+            color: #eee;
+            line-height: 18px;
+            height: 18px;
+            margin: auto;
+            margin-left: -16px;
+            top: 0;
+            bottom: 0;
+            left: 4%;
+        }
         .right {
             height: 50%;
             right: 4%;
@@ -131,6 +146,7 @@
         }
         .left {
             height: 80%;
+            min-width: 50%;
             left: 4%;
             top: 10%;
             .precious-box {
@@ -139,20 +155,6 @@
             .score-bar {
                 height: 70%;
                 margin-bottom: 5%;
-            }
-            #score {
-                // position: absolute;
-                display: block;
-                font-size: 16px;
-                text-align: right;
-                max-width: 20%;
-                color: #eee;
-                line-height: 18px;
-                height: 18px;
-                margin: auto;
-                top: 0;
-                bottom: 0;
-                right: 12px;
             }
         }
     }
