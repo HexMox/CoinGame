@@ -35,6 +35,7 @@ class State extends EventEmitter
     initOverState: ->
         @$againBtn.addEventListener "touchstart", (event)=>
             event.stopPropagation()
+            @overFail.style.display = "none"
             @change "start"
 
         @$goLotteryBtn.addEventListener "touchstart", (event)=>
@@ -52,7 +53,12 @@ class State extends EventEmitter
                 type: 'POST'
                 success: (data, status)=>
                     @$overLotteryOpen.style.display = "none"
-                    @$reward.innerHTML = data.result
+                    if typeof data.result is "number"
+                        @$reward.innerHTML = "新年快乐,恭喜获得" + data.result.toString() + "元红包"
+                    else if data.result is "none"
+                        @$reward.innerHTML = "法力无边的锦鲤带来的好运气"
+                    else
+                        @$reward.innerHTML = "你今天已经没有抽奖机会咯"
                     @$congratulation.style.display = "block"
 
     change: (state, score)->

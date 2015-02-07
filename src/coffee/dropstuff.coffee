@@ -11,52 +11,52 @@ STRATEGY = [{
     probs: [0.7, 0.3] # 生成掉落通道数的概率
     # 生成掉落物种类数的概率，依次为炸弹，白羊，黑羊，纸币，金币，金条
     kindprobs: [0.05, 0, 0, 0.55, 0.25, 0.15]
-    timeStamp: 3
-    MinSpeed: HEIGHT / (2.2 * 60)
-    MaxSpeed: HEIGHT / (1.9 * 60)
+    timeStamp: 1
+    MinSpeed: HEIGHT / (2.0 * 60)
+    MaxSpeed: HEIGHT / (1.8 * 60)
 }, {
     # score 26-50
     MinDroppingPipes: 1
     MaxDroppingPipes: 2
     probs: [0.6, 0.4]
     kindprobs: [0.1, 0, 0, 0.55, 0.25, 0.10]
-    timeStamp: 3
+    timeStamp: 1
     MinSpeed: HEIGHT / (1.8 * 60)
     MaxSpeed: HEIGHT / (1.6 * 60)
 }, {
     # score 51-100
     MinDroppingPipes: 1
-    MaxDroppingPipes: 3
+    MaxDroppingPipes: 2 
     probs: [0.5, 0.3, 0.2]
     kindprobs: [0.1, 0.05, 0.05, 0.40, 0.25, 0.15]
-    timeStamp: 2
-    MinSpeed: HEIGHT / (1.8 * 60)
-    MaxSpeed: HEIGHT / (1.6 * 60)
+    timeStamp: 0.8
+    MinSpeed: HEIGHT / (1.7 * 60)
+    MaxSpeed: HEIGHT / (1.5 * 60)
 }, {
     # score 101-150
     MinDroppingPipes: 1
-    MaxDroppingPipes: 3
+    MaxDroppingPipes: 2 
     probs: [0.5, 0.3, 0.2]
     kindprobs: [0.15, 0.10, 0.10, 0.27, 0.25, 0.13]
-    timeStamp: 2
+    timeStamp: 0.8
     MinSpeed: HEIGHT / (1.5 * 60)
     MaxSpeed: HEIGHT / (1.3 * 60)
 }, {
     # score 151-300
     MinDroppingPipes: 1
-    MaxDroppingPipes: 4
+    MaxDroppingPipes: 2
     probs: [0.25, 0.25, 0.25, 0.25]
     kindprobs: [0.18, 0.13, 0.12, 0.23, 0.23, 0.11]
-    timeStamp: 2
-    MinSpeed: HEIGHT / (1.1 * 60)
-    MaxSpeed: HEIGHT / (0.9 * 60)
+    timeStamp: 0.6
+    MinSpeed: HEIGHT / (1.3 * 60)
+    MaxSpeed: HEIGHT / (1.1 * 60)
 },{
     # score 301-800
-    MinDroppingPipes: 2 
-    MaxDroppingPipes: 4 
+    MinDroppingPipes: 1
+    MaxDroppingPipes: 3
     probs: [0.3, 0.4, 0.3]
     kindprobs: [0.29, 0.15, 0.10, 0.18, 0.14, 0.14]
-    timeStamp: 2
+    timeStamp: 0.6
     MinSpeed: HEIGHT / (1.1 * 60)
     MaxSpeed: HEIGHT / (0.9 * 60)
 },{
@@ -65,7 +65,7 @@ STRATEGY = [{
     MaxDroppingPipes: 5 
     probs: [0.3, 0.3, 0.4]
     kindprobs: [0.39, 0.12, 0.05, 0.20, 0.12, 0.12]
-    timeStamp: 2
+    timeStamp: 0.5
     MinSpeed: HEIGHT / (1.1 * 60)
     MaxSpeed: HEIGHT / (0.9 * 60)
 }]
@@ -88,7 +88,7 @@ class Dropstuff extends EventEmitter
         @flag = 180
         @stage = 0
         @strategy = STRATEGY[@stage]
-        @frameCount = 180
+        @frameCount = @strategy.timeStamp * 60
 
     produce: ->
         if (++@flag >= @frameCount)
